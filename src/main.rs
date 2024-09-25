@@ -24,11 +24,21 @@ Use cases:
 ");
     }
     let reader = read(file).unwrap();
+    let mut count = 1;
     for line in reader.lines() {
         let line = line.unwrap();
-        let first_column = line.split(",").next().unwrap();
-        stdout()
-            .write_all(format!("{}\n", first_column).as_bytes())
-            .unwrap();
+        if count == 1 {
+            let mut header = String::from("#");
+            header.push_str(line.split(",").next().unwrap());
+            stdout()
+                .write_all(format!("{}\n", header).as_bytes())
+                .unwrap();
+        } else {
+            let first_column = line.split(",").next().unwrap();
+            stdout()
+                .write_all(format!("{}\n", first_column).as_bytes())
+                .unwrap();
+        }
+        count += 1;
     }
 }
